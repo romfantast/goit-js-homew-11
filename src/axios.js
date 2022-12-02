@@ -71,19 +71,11 @@ async function handlerFormSearch(e) {
       return;
     }
 
-    //   work with success response
     Notiflix.Notify.success(`Hooray! We found ${data.total} images.`);
-
-   //  paginationControl(data);
 
     refs.galleryList.innerHTML = createImageMarkup(data.hits);
     lightbox.refresh();
 
-    //  if (data.hits.length < per_page) {
-    // 	 hideBtnAndNotify();
-    //
-    //    return;
-    //  }
     showBtn();
     isLastPage(maxPage, page);
   } catch (err) {
@@ -103,20 +95,10 @@ function showBtn() {
 }
 
 function isLastPage(maxPage, currentPage) {
-  //   if (myTotal === totalApi) {
-  //     hideBtnAndNotify();
-  //     return;
-  //   }
-
   if (maxPage === currentPage) {
     hideBtnAndNotify();
   }
 }
-
-// function paginationControl(data) {
-//   total += data.hits.length;
-//   totalAPI = data.totalHits;
-// }
 
 // init SimpleLightbox
 const lightbox = new SimpleLightbox('.gallery a', {
