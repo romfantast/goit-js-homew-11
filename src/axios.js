@@ -108,7 +108,7 @@ function isLastPage(myTotal, totalApi) {
 
 function paginationControl(data) {
   total += data.hits.length;
-  totalAPI = data.total;
+  totalAPI = data.totalHits;
 }
 
 // init SimpleLightbox
