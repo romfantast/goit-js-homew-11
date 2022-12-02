@@ -19,12 +19,11 @@ const messages = {
 };
 
 // ======== INITIAL HELPER VARIABLES ========= //
-let per_page = 40;
-let query = null;
 let page = 1;
-let total = 0;
-let totalAPI = null;
+let per_page = 40;
 let maxPage = 1;
+let query = null;
+
 // =============== LISTENERS ================== //
 
 refs.formEl.addEventListener('submit', handlerFormSearch);
@@ -36,7 +35,6 @@ async function handlerBtnLoadMore() {
   page++;
   try {
     const { data } = await axiosGetImages(page, query, per_page);
-    total += data.hits.length;
 
     refs.galleryList.innerHTML += createImageMarkup(data.hits);
     lightbox.refresh();
@@ -84,6 +82,11 @@ async function handlerFormSearch(e) {
 }
 
 // =============== HELPERS ================== //
+function isLastPage(maxPage, currentPage) {
+  if (maxPage === currentPage) {
+    hideBtnAndNotify();
+  }
+}
 
 function hideBtnAndNotify() {
   Notiflix.Notify.info(messages.info);
@@ -92,12 +95,6 @@ function hideBtnAndNotify() {
 
 function showBtn() {
   refs.btnLoadMore.style.display = 'inline-block';
-}
-
-function isLastPage(maxPage, currentPage) {
-  if (maxPage === currentPage) {
-    hideBtnAndNotify();
-  }
 }
 
 // init SimpleLightbox
