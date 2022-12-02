@@ -24,7 +24,7 @@ let query = null;
 let page = 1;
 let total = 0;
 let totalAPI = null;
-
+let maxPage = 1;
 // =============== LISTENERS ================== //
 
 refs.formEl.addEventListener('submit', handlerFormSearch);
@@ -40,7 +40,7 @@ async function handlerBtnLoadMore() {
 
     refs.galleryList.innerHTML += createImageMarkup(data.hits);
     lightbox.refresh();
-    isLastPage(total, totalAPI);
+    isLastPage(maxPage, page);
   } catch (err) {
     console.log(err);
   }
@@ -63,6 +63,7 @@ async function handlerFormSearch(e) {
   try {
     const { data } = await axiosGetImages(page, query, per_page);
     console.log(data);
+    maxPage = Math.ceil(data.totalHits / per_page);
 
     //     check for empty data
     if (!data.hits.length) {
@@ -78,11 +79,13 @@ async function handlerFormSearch(e) {
     refs.galleryList.innerHTML = createImageMarkup(data.hits);
     lightbox.refresh();
 
-    if (data.hits.length < per_page) {
-      hideBtnAndNotify();
-      return;
-    }
+    //  if (data.hits.length < per_page) {
+    // 	 hideBtnAndNotify();
+    //
+    //    return;
+    //  }
     showBtn();
+    isLastPage(maxPage, page);
   } catch (err) {
     Notiflix.Notify.failure(err.message);
   }
@@ -99,17 +102,21 @@ function showBtn() {
   refs.btnLoadMore.style.display = 'inline-block';
 }
 
-function isLastPage(myTotal, totalApi) {
-  if (myTotal === totalApi) {
+function isLastPage(maxPage, currentPage) {
+  //   if (myTotal === totalApi) {
+  //     hideBtnAndNotify();
+  //     return;
+  //   }
+
+  if (maxPage === currentPage) {
     hideBtnAndNotify();
-    return;
   }
 }
 
-function paginationControl(data) {
-  total += data.hits.length;
-  totalAPI = data.totalHits;
-}
+// function paginationControl(data) {
+//   total += data.hits.length;
+//   totalAPI = data.totalHits;
+// }
 
 // init SimpleLightbox
 const lightbox = new SimpleLightbox('.gallery a', {
