@@ -74,7 +74,7 @@ async function handlerFormSearch(e) {
     //   work with success response
     Notiflix.Notify.success(`Hooray! We found ${data.total} images.`);
 
-    paginationControl(data);
+   //  paginationControl(data);
 
     refs.galleryList.innerHTML = createImageMarkup(data.hits);
     lightbox.refresh();
